@@ -18,7 +18,8 @@ const Home = () => {
     dataProducts,
     createProduct,
     updateProduct,
-          
+    filters,
+    setFilters,
   } = context;
 
   const handlerShowModal = (type) => {
@@ -34,20 +35,29 @@ const Home = () => {
   };
 
   const handlerEmmiterModal = (data, isEdit) => {
-    console.log("handlerEmmiterModal", data);
-    console.log("isEdit", isEdit);
     if (!isEdit) {
-      createProduct({ variables: {
-        input:data  
-      }});
-    }else{
-      const {id,...dataInput} = data
-      updateProduct({ 
+      createProduct({
         variables: {
-        id:id,
-        input:dataInput
-      }})
+          input: data,
+        },
+      });
+    } else {
+      const { id, ...dataInput } = data;
+      updateProduct({
+        variables: {
+          id: id,
+          input: dataInput,
+        },
+      });
     }
+  };
+
+  const handlerEmmiterPagination = (offset) => {
+    setFilters({ ...filters, pagination: { ...filters.pagination, offset } });
+  };
+
+  const handlerEmmiterSearch = (search) => {
+    setFilters({ ...filters, search: { ...filters.search, name:search } });
   };
 
   console.log(dataProducts);
@@ -55,7 +65,7 @@ const Home = () => {
   return (
     <SkeletonLoader loading={loadingProducts}>
       <div className="search__container">
-        <SearchComponent />
+        <SearchComponent eventEmmiter={handlerEmmiterSearch} />
         <Button color="info" onClick={() => handlerShowModal("open")}>
           agregar producto
         </Button>
@@ -64,7 +74,7 @@ const Home = () => {
       <CardGrid className="cardGrid__container">
         {dataProducts &&
           dataProducts.getProducts &&
-          dataProducts.getProducts.map((product, i) => (
+          dataProducts.getProducts.items.map((product, i) => (
             <CardComponent
               key={i}
               {...product}
@@ -74,7 +84,14 @@ const Home = () => {
           ))}
       </CardGrid>
 
-      <Pagination />
+      {dataProducts && dataProducts.getProducts && (
+        <Pagination
+          limit={filters.pagination.limit}
+          offset={filters.pagination.offset}
+          eventEmmiter={handlerEmmiterPagination}
+          total={dataProducts.getProducts.size}
+        />
+      )}
 
       <ModalProduct
         isOpen={isOpenModal}

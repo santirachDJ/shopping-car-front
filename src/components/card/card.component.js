@@ -52,7 +52,6 @@ const CardComponent = ({
             type="text"
             placeholder="Cantidad"
             onKeyPress={(event) => {
-              console.log(event);
               if (!/[0-9]/.test(event.key)) {
                 event.preventDefault();
               }

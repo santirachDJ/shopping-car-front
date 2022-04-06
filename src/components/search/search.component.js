@@ -4,7 +4,7 @@ import Container from "emerald-ui/lib/Container";
 import Row from "emerald-ui/lib/Row";
 import Col from "emerald-ui/lib/Col";
 
-const SearchComponent = ()=>{
+const SearchComponent = ({eventEmmiter})=>{
 return(
     <Container>
         <Row>
@@ -14,7 +14,10 @@ return(
               inputId="query"
               onSubmit={(e) => e.preventDefault()}
               onChange={(e) => {
-                console.log(e.target.value);
+                setTimeout(() => {
+                  eventEmmiter(e.target.value);
+                }, 600);
+                
               }}
             />
           </Col>
