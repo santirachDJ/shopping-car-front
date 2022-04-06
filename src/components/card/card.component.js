@@ -1,20 +1,64 @@
 import Card from "emerald-ui/lib/Card";
-import React from "react";
+import React, { useContext } from "react";
+import StoreManagerContext from "../../context/storeManager.context";
+import storeManagerHoc from "../../hoc/storeManager.hoc";
+import Button from "emerald-ui/lib/Button";
 
-const CardComponent = ({ name, code, price, category }) => {
+const CardComponent = ({
+  name,
+  code,
+  price,
+  category,
+  handlerShowModal,
+  handlerDataModal,
+}) => {
+  const context = useContext(StoreManagerContext);
+  const { handlerStore } = context;
+
+  const handlerSetInformationModal = (data) => {
+    handlerShowModal("open");
+    handlerDataModal(data);
+  };
   return (
     <Card className="cardGrid__card">
-      <h1 className="eui-card-title">{name}</h1>
-      <h2 className="eui-card-subtitle">{category}</h2>
+      <h1 className="cardGrid__card__title">{name}</h1>
+      <h2 className="cardGrid__card__subtitle">{category}</h2>
       <p>
         Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Donec odio.
         Quisque volutpat mattis eros. Nullam malesuada erat ut turpis.
         Suspendisse urna nibh, viverra non, semper suscipit, posuere a, pede.
       </p>
-      <span>Code: {code}</span>
-      <span>${price}</span>
+      <div className="cardGrid__card__information">
+        <span>Code: {code}</span>
+        <span>${price}</span>
+      </div>
+      <div className="cardGrid__card__actions">
+        <div className="cardGrid__card__actions__store">
+          <Button color="info" onClick={() => handlerStore()}>
+            <span>anadir</span>
+          </Button>
+          <input
+            type="text"
+            placeholder="Cantidad"
+            onKeyPress={(event) => {
+              console.log(event);
+              if (!/[0-9]/.test(event.key)) {
+                event.preventDefault();
+              }
+            }}
+          />
+        </div>
+        <Button
+          color="info"
+          onClick={() =>
+            handlerSetInformationModal({ name, code, price, category })
+          }
+        >
+          actualizar
+        </Button>
+      </div>
     </Card>
   );
 };
 
-export default CardComponent;
+export default storeManagerHoc(CardComponent);
