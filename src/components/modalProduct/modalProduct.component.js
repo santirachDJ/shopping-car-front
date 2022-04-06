@@ -1,50 +1,134 @@
 import Modal from "emerald-ui/lib/Modal";
-import React, { Fragment } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import Button from "emerald-ui/lib/Button";
-import SingleSelect from "emerald-ui/lib/SingleSelect";
 import TextField from "emerald-ui/lib/TextField";
 import { isEmpty } from "lodash";
-const ModalProduct = ({ handlerShowModal, handlerDataModal, isOpen, data }) => {
-  
-  const handlerModalView = () => {
+const ModalProduct = ({ handlerShowModal, handlerDataModal, handlerEmmiterModal, isOpen, data }) => {
+  const [dataModal, setDataModal] = useState({
+    name: "",
+    code: "",
+    price: "",
+    category: "",
+  });
+
+  const [isDisabled,setIsDisabled] = useState(false)
+
+  const isEdit = !isEmpty(data) ? true : false;
+
+  const handlerModalViewClose = () => {
     handlerShowModal("close");
     handlerDataModal({});
+    setResetDataModal()
   };
 
-  const isEdit = !isEmpty(data) ? true :false
+  const handlerModalSave = () => {   
+    handlerEmmiterModal({...dataModal, id:data.id},isEdit);
+    handlerModalViewClose()
+  };
 
-  console.log("data", data);
+  const handlerData = (data, key) => {
+    setDataModal({ ...dataModal, [key]: data });
+  };
+
+  const setResetDataModal =()=>{
+    setDataModal({
+      name: "",
+      code: "",
+      price: "",
+      category: "",
+    })
+  }
+
+  
+
+  useEffect(()=>{
+    const disable = Object.keys(dataModal).every((objectKey, index) => {
+      if (dataModal[objectKey] && dataModal[objectKey] != "") {
+        return true;
+      }
+      return false;
+    });
+    setIsDisabled(disable)
+  },[dataModal])
+
+
+  useEffect(()=>{
+    if(!isEmpty(data)){
+      setDataModal({...data})
+    }
+  },[data])
+
+  
   return (
     <Fragment>
-      <Modal onHide={() => handlerModalView()} show={isOpen}>
+      <Modal onHide={() => handlerModalViewClose()} show={isOpen}>
         <Modal.Header closeButton={true}>
           <Modal.Title>Producto</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <div>
             <div>
-              <TextField label="Codigo" />
+              <TextField
+                label="Codigo"
+                onKeyPress={(event) => {
+                  if (!/[0-9]/.test(event.key)) {
+                    event.preventDefault();
+                  }
+                }}
+                onChange={(change) => handlerData(change.target.value, "code")}
+                value={dataModal.code}
+              />
             </div>
             <div>
-              <TextField label="Nombre" />
+              <TextField
+                label="Nombre"
+                onChange={(change) => handlerData(change.target.value, "name")}
+                value={dataModal.name}
+              />
             </div>
             <div>
-              <TextField label="Precio" />
+              <TextField
+                label="Precio"
+                onKeyPress={(event) => {
+                  if (!/[0-9]/.test(event.key)) {
+                    event.preventDefault();
+                  }
+                }}
+                onChange={(change) => handlerData(parseInt(change.target.value), "price")}
+                value={dataModal.price}
+              />
             </div>
             <div>
-              <SingleSelect label="Categoria" id="s1">
+              <select
+                onChange={(data) => {
+                  handlerData(data.target.value, "category");
+                }}
+                value={dataModal.category}
+                placeholder="Categoria"
+              >
+                <option value=""></option>
                 <option value="FOOD">Food</option>
                 <option value="TECH">Tech</option>
                 <option value="TOYS">Toys</option>
-              </SingleSelect>
+              </select>
             </div>
           </div>
         </Modal.Body>
         <Modal.Footer>
-          <Button onClick={() => handlerModalView()} shape="flat" color="info">
+          <Button
+            onClick={() => handlerModalViewClose()}
+            shape="flat"
+            color="info"
+          >
             Cancel
           </Button>
-          <Button color="info">{isEdit?"Editar":"Guardar"}</Button>
+          <Button
+            onClick={() => handlerModalSave()}
+            color="info"
+            disabled={!isDisabled}
+          >
+            {isEdit ? "Editar" : "Guardar"}
+          </Button>
         </Modal.Footer>
       </Modal>
     </Fragment>

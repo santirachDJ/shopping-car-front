@@ -9,6 +9,7 @@ const CardComponent = ({
   code,
   price,
   category,
+  _id:id,
   handlerShowModal,
   handlerDataModal,
 }) => {
@@ -21,7 +22,17 @@ const CardComponent = ({
   };
   return (
     <Card className="cardGrid__card">
-      <h1 className="cardGrid__card__title">{name}</h1>
+      <div className="cardGrid__card__header">
+        <h1 className="cardGrid__card__title">{name}</h1>
+        <Button
+          color="info"
+          onClick={() =>
+            handlerSetInformationModal({ name, code, price, category, id })
+          }
+        >
+          Editar
+        </Button>
+      </div>
       <h2 className="cardGrid__card__subtitle">{category}</h2>
       <p>
         Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Donec odio.
@@ -48,14 +59,6 @@ const CardComponent = ({
             }}
           />
         </div>
-        <Button
-          color="info"
-          onClick={() =>
-            handlerSetInformationModal({ name, code, price, category })
-          }
-        >
-          actualizar
-        </Button>
       </div>
     </Card>
   );
