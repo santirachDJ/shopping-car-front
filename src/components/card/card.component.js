@@ -9,7 +9,7 @@ const CardComponent = ({
   code,
   price,
   category,
-  _id:id,
+  _id: id,
   handlerShowModal,
   handlerDataModal,
 }) => {

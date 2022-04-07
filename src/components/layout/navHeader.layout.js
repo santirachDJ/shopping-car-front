@@ -2,7 +2,14 @@ import React from "react";
 import PageHeader from "emerald-ui/lib/PageHeader";
 import Avatar from "emerald-ui/lib/Avatar";
 import Nav from "emerald-ui/lib/Nav";
-const NavHeader = ({setPage,page}) => {
+import routes from "../../routes/routes";
+import { useLocation,useHistory } from 'react-router-dom';
+
+
+const NavHeader = () => {
+  const location = useLocation();
+  const history = useHistory();
+ 
   return (
     <PageHeader className="layout__pageHeader">
       <h1 className="clearfix">
@@ -10,16 +17,18 @@ const NavHeader = ({setPage,page}) => {
         <span className="h2">John Doe</span>
       </h1>
       <Nav>
-        <a href="/" 
-        className={page==1?'active':''}
-        onClick={()=>setPage(1)}
+       {routes.map((route,index)=>{
+         return (
+          <a
+          key={index}
+          href={`/${route.path}`}
+          className={ location.pathname ==route.path? "active":"" }
+          onClick={() => history.push(route.path)}
         >
-          Ver productos
+          {route.name}
         </a>
-        <a href="/"
-        className={page==2?'active':''}
-        onClick={()=>setPage(2)}
-        >Ver mi carrito</a>
+         )
+       })}
       </Nav>
     </PageHeader>
   );

@@ -66,6 +66,18 @@
 
 }
 
+.shoppingCar{
+  &__content{
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    margin-top: 20px;
+    label{
+      margin-right: 5px;
+    }
+  }
+}
+
 .pagination{
   margin-top: 3%;
 }

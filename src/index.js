@@ -7,11 +7,12 @@ import "./stylesheets/main.scss";
 import { ApolloProvider } from "@apollo/react-hooks";
 import clientGraphql from "./connection";
 import 'emerald-ui/lib/styles.css';
+import Router from "./routes/components/router.route";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <ApolloProvider client={clientGraphql}>
-    <App />
+    <Router/>
   </ApolloProvider>
 );
 
