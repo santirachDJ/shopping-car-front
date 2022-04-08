@@ -9,7 +9,9 @@ import { useLocation,useHistory } from 'react-router-dom';
 const NavHeader = () => {
   const location = useLocation();
   const history = useHistory();
- 
+  const useQuery = () => new URLSearchParams(useLocation().search);
+  const query = useQuery();
+  const shippingId = query.get("shopping");
   return (
     <PageHeader className="layout__pageHeader">
       <h1 className="clearfix">
@@ -23,7 +25,11 @@ const NavHeader = () => {
           key={index}
           href={`/${route.path}`}
           className={ location.pathname ==route.path? "active":"" }
-          onClick={() => history.push(route.path)}
+          onClick={() => history.push({
+            pathname: route.path,
+            search: `?shopping=${shippingId}`,
+            state: { shoppingId: shippingId },
+          })}
         >
           {route.name}
         </a>

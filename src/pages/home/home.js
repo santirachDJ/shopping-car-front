@@ -1,4 +1,4 @@
-import React, { Fragment, useContext, useState } from "react";
+import React, { Fragment, useContext, useEffect, useState } from "react";
 import CardGrid from "emerald-ui/lib/CardGrid";
 import SkeletonLoader from "emerald-ui/lib/SkeletonLoader";
 import CardComponent from "../../components/card/card.component";
@@ -10,10 +10,11 @@ import HandlerActionContext from "../../context/handlerAction.context";
 import handlerActionHoc from "../../hoc/handlerAction.hoc";
 import { useLocation } from "react-router-dom";
 import AlertShowError from "../../components/alert/alert.component";
-import { isEmpty } from "lodash";
+import { useHistory } from "react-router-dom";
 const Home = () => {
   const useQuery = () => new URLSearchParams(useLocation().search);
   const query = useQuery();
+  const history = useHistory();
   const [isOpenModal, setOpenModal] = useState(false);
   const [dataModal, setDataModal] = useState({});
   const [alertData,setAlertData] = useState({show:false,color:""})
@@ -74,6 +75,14 @@ const Home = () => {
       },1000)
     }
   };
+
+  useEffect(()=>{
+    if(shippingId==undefined){
+      history.push({
+        pathname: "/shopping"
+      });
+    }
+  },[history])
 
   console.log(dataProducts);
 

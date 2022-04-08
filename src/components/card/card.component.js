@@ -13,9 +13,12 @@ const CardComponent = ({
   category,
   _id: id,
   shippingId,
+  type,
+  quantity:quantityProduct,
   handlerEmmiterStoreShopping,
   handlerShowModal,
   handlerDataModal,
+  handlerEmmiterDelete
 }) => {
   const context = useContext(StoreManagerContext);
   const { handlerStore, addProductToShoppingData } = context;
@@ -26,25 +29,25 @@ const CardComponent = ({
     handlerDataModal(data);
   };
 
-  useEffect(()=>{
-    if(!isEmpty(addProductToShoppingData)){
-      handlerEmmiterStoreShopping(true)
+  useEffect(() => {
+    if (!isEmpty(addProductToShoppingData)) {
+      handlerEmmiterStoreShopping(true);
     }
-  },[addProductToShoppingData])
+  }, [addProductToShoppingData]);
 
   return (
     <Fragment>
       <Card className="cardGrid__card">
         <div className="cardGrid__card__header">
           <h1 className="cardGrid__card__title">{name}</h1>
-          <Button
+          {type!="details"&&<Button
             color="info"
             onClick={() =>
               handlerSetInformationModal({ name, code, price, category, id })
             }
           >
             Editar
-          </Button>
+          </Button>}
         </div>
         <h2 className="cardGrid__card__subtitle">{category}</h2>
         <p>
@@ -54,10 +57,11 @@ const CardComponent = ({
         </p>
         <div className="cardGrid__card__information">
           <span>Code: {code}</span>
-          <span>${price}</span>
+          <span>Precio: ${price}</span>
+          {type=="details"&&<span>Pedido: {quantityProduct}</span>}
         </div>
         <div className="cardGrid__card__actions">
-          <div className="cardGrid__card__actions__store">
+         {type!="details"&& <div className="cardGrid__card__actions__store">
             <Button
               color="info"
               onClick={() => handlerStore(shippingId, id, parseInt(quantity))}
@@ -76,7 +80,15 @@ const CardComponent = ({
               }}
               onChange={(event) => setQuantity(event.target.value)}
             />
-          </div>
+          </div>}
+          {type=="details"&& <div className="cardGrid__card__actions__store">
+            <Button
+              color="info"
+              onClick={() => handlerEmmiterDelete(shippingId, id)}
+            >
+              <span>Eliminar</span>
+            </Button>
+          </div>}
         </div>
       </Card>
     </Fragment>

@@ -1,6 +1,6 @@
 import home from "../pages/home/home";
 import ShoppingCar from "../pages/shoppingCar/shoppingCar";
-
+import DetailShoppingCar from "../pages/detailShoppingCar/detailShoppingCar"
 const routes = [
   {
     path: "/shopping",
@@ -16,7 +16,7 @@ const routes = [
   },
   {
     path: "/shopping/details",
-    component: home,
+    component: DetailShoppingCar,
     exact: true,
     name: "Ver shopping car",
   },

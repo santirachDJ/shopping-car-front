@@ -53,7 +53,7 @@ export default (WrappedComponent) => {
                 search:filters.search.name?{name:`${filters.search.name}*`}:{}
               })
         }
-    },[filters])
+    },[filters.search])
 
     return (
       <HandlerActionContext.Provider
