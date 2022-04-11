@@ -16,7 +16,7 @@ const NavHeader = () => {
     <PageHeader className="layout__pageHeader">
       <h1 className="clearfix">
         <Avatar title="John Doe" size="md" className="pull-left" />
-        <span className="h2">John Doe</span>
+        <span className="h2">Jorge sanes</span>
       </h1>
       <Nav>
        {routes.map((route,index)=>{
@@ -27,7 +27,7 @@ const NavHeader = () => {
           className={ location.pathname ==route.path? "active":"" }
           onClick={() => history.push({
             pathname: route.path,
-            search: `?shopping=${shippingId}`,
+            search: `${shippingId ? `?shopping=${shippingId}`:""}`,
             state: { shoppingId: shippingId },
           })}
         >

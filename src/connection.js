@@ -4,7 +4,7 @@ import { HttpLink } from "apollo-boost";
 
 const clientGraphql = new ApolloClient({
     link: new HttpLink({
-      uri: "http://localhost:4000/graphql",
+      uri: "http://52.90.41.219:4000/graphql",
       options: {
         reconnect: true,
         connectionParams: {

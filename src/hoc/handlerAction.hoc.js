@@ -48,12 +48,12 @@ export default (WrappedComponent) => {
     useEffect(()=>{
         if(filters){
             refetchGetProducts({
-                pagination: filters.pagination,
+                pagination: filters.search.name? { limit: 8, offset: 0 }:filters.pagination,
                 sort: "-createdAt",
                 search:filters.search.name?{name:`${filters.search.name}*`}:{}
               })
         }
-    },[filters.search])
+    },[filters])
 
     return (
       <HandlerActionContext.Provider

@@ -60,6 +60,7 @@ const Home = () => {
   };
 
   const handlerEmmiterPagination = (offset) => {
+    console.log("cambio")
     setFilters({ ...filters, pagination: { ...filters.pagination, offset } });
   };
 

@@ -1,4 +1,4 @@
-import React  from "react";
+import React, { useEffect }  from "react";
 import Panel from "emerald-ui/lib/Panel";
 import GET_SHOPPING_CAR from "../../graphql/query/GetShoppingCar.query";
 import { useLocation } from "react-router-dom";
@@ -31,9 +31,13 @@ const DetailShoppingCar = () => {
           productId
         },
       }).then(()=>{
-        refetchGetShopping()
+        refetchGetShopping( {variables: { id: shippingId }})
       })
   }
+
+  useEffect(()=>{
+    refetchGetShopping({variables: { id: shippingId }})
+  },[])
   
   return (
     <SkeletonLoader loading={loadingShopping}>

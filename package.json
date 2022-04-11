@@ -57,7 +57,8 @@
     "dev": "webpack --mode=development",
     "build": "webpack --mode=production",
     "test": "jest",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "deploy":"aws s3 sync dist/ s3://shopping-car-front-storage --delete"
   },
   "eslintConfig": {
     "extends": [
