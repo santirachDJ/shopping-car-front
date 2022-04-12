@@ -3,7 +3,7 @@ import ShoppingCar from "../pages/shoppingCar/shoppingCar";
 import DetailShoppingCar from "../pages/detailShoppingCar/detailShoppingCar"
 const routes = [
   {
-    path: "/shopping",
+    path: "/",
     component: ShoppingCar,
     exact: true,
     name: "Crear shopping",

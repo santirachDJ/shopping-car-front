@@ -80,7 +80,7 @@ const Home = () => {
   useEffect(()=>{
     if(shippingId==undefined){
       history.push({
-        pathname: "/shopping"
+        pathname: "/"
       });
     }
   },[history])
