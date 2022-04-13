@@ -82,6 +82,7 @@ describe('ModalProduct test', () => {
         const send = wrapper.find('Button').at(1) 
         send.simulate('click');
         expect(handlerEmmiterModal).toBeCalled();
+        expect(handlerEmmiterModal).toBeCalledWith({"category": "FOOD", "code": 234, "id": undefined, "name": "234", "price": 234}, false);
     })
 
 })

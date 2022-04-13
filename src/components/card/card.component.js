@@ -22,7 +22,7 @@ const CardComponent = ({
 }) => {
   const context = useContext(StoreManagerContext);
   const { handlerStore, addProductToShoppingData } = context;
-  const [quantity, setQuantity] = useState(0);
+  const [quantity, setQuantity] = useState(1);
 
   const handlerSetInformationModal = (data) => {
     handlerShowModal("open");
