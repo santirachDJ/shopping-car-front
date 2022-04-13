@@ -17,7 +17,7 @@ const Home = () => {
   const history = useHistory();
   const [isOpenModal, setOpenModal] = useState(false);
   const [dataModal, setDataModal] = useState({});
-  const [alertData,setAlertData] = useState({show:false,color:""})
+  const [alertData,setAlertData] = useState({show:false,color:"",message:""})
   const shippingId = query.get("shopping");
   const context = useContext(HandlerActionContext);
   const {
@@ -27,6 +27,8 @@ const Home = () => {
     updateProduct,
     filters,
     setFilters,
+    updateError,
+    createError
   } = context;
 
   const handlerShowModal = (type) => {
@@ -70,9 +72,9 @@ const Home = () => {
 
   const handlerEmmiterStoreShopping = (isStore) => {
     if(isStore){
-      setAlertData({show:true,color:"info"})
+      setAlertData({show:true,color:"info",message:"Producto agregado"})
       setTimeout(()=>{
-        setAlertData({show:false,color:""})
+        setAlertData({show:false,color:"",message:""})
       },1000)
     }
   };
@@ -85,13 +87,35 @@ const Home = () => {
     }
   },[history])
 
+  useEffect(()=>{
+
+    if(updateError){
+      const messagError = "accion editar no valida"
+      setAlertData({show:true,color:"danger",message:messagError})
+      setTimeout(()=>{
+        setAlertData({show:false,color:"",message:""})
+      },3000)
+    }
+  },[updateError])
+
+  useEffect(()=>{
+    console.log(createError)
+    if(createError){
+      const messagError = "accion guardar no valida"
+      setAlertData({show:true,color:"danger",message:messagError})
+      setTimeout(()=>{
+        setAlertData({show:false,color:"",message:""})
+      },3000)
+    }
+  },[createError])
+
   console.log(dataProducts);
 
   return (
     <Fragment>
       <SkeletonLoader loading={loadingProducts}>
       {alertData.show && (
-        <AlertShowError message="Producto agregado" color={alertData.color} />
+        <AlertShowError message={alertData.message} color={alertData.color} />
       )}
         <div className="search__container">
           <SearchComponent eventEmmiter={handlerEmmiterSearch} />
