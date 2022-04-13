@@ -1,0 +1,12 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`alert test Matches the snapshot 1`] = `
+Array [
+  <Pagination
+    eventEmmiter={[MockFunction]}
+    limit={8}
+    offset={0}
+    total={10}
+  />,
+]
+`;
